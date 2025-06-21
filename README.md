@@ -273,7 +273,7 @@ add(event) {
 </div>
 ```
 
-### 5. Примеры CSS стилей в стиле программирования
+### 5. Примеры CSS стилей
 
 ```css
 /* Анимация печати */
@@ -301,6 +301,46 @@ add(event) {
 .link-youtube { border-color: rgba(239, 68, 68, 0.5); }
 .link-demo { border-color: rgba(59, 130, 246, 0.5); }
 ```
+
+### Скриншоты
+
+<p align="center">
+   <img alt="main-page-unauthorized" src="https://github.com/user-attachments/assets/715b38da-5f2f-4766-a2f4-5c1e0245404a" width="800">
+   <br/>
+   <em>Главная страница (Неавторизованный пользователь)</em>
+</p>
+
+<br/>
+
+<p align="center">
+   <img alt="main-page-authorized" src="https://github.com/user-attachments/assets/e388974e-9ca9-437f-a7c8-0e59748aaff5" width="800">
+   <br/>
+   <em>Главная страница (Авторизованный пользователь/Админ)</em>
+</p>
+
+<br/>
+
+<p align="center">
+   <img alt="authorization-page" src="https://github.com/user-attachments/assets/cbd75ee2-ba23-4cbd-8938-bfac7eb5eab6" width="800">
+   <br/>
+   <em>Страница авторизации</em>
+</p>
+
+<br/>
+
+<p align="center">
+   <img alt="project-info-page" src="https://github.com/user-attachments/assets/56659d46-9854-4b72-a4e2-bf3c7fd7fe99" width="800">
+   <br/>
+   <em>Подробная информация о проекте</em>
+</p>
+
+<br/>
+
+<p align="center">
+   <img alt="change-project-info-page" src="https://github.com/user-attachments/assets/11197a41-c071-4a4f-b947-da11775cc7bd" width="800">
+   <br/>
+   <em>Изменения данных о проекте</em>
+</p>
 
 ## 📚 Список источников
 
