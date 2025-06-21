@@ -1,0 +1,124 @@
+<div class="bg-gray-800 border border-green-500/30 rounded-lg p-8">
+  <%= form_with model: project, local: true, multipart: true, class: "space-y-6" do |form| %>
+
+    <% if project.errors.any? %>
+      <div class="bg-red-900/50 border border-red-500 rounded-lg p-4">
+        <h4 class="text-red-300 font-semibold mb-2">
+          Обнаружены ошибки (<%= pluralize(project.errors.count, "error") %>):
+        </h4>
+        <ul class="text-red-300 text-sm space-y-1">
+          <% project.errors.full_messages.each do |message| %>
+            <li>• <%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Project Title -->
+    <div>
+      <%= form.label :title, class: "block text-green-400 font-semibold mb-2" do %>
+        <span class="text-white">const</span> projectTitle = <span class="text-green-400">"</span>
+      <% end %>
+      <%= form.text_field :title,
+          class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-2 text-white focus:border-green-500 focus:outline-none",
+          placeholder: "Введите название проекта" %>
+      <span class="text-green-400">";</span>
+    </div>
+
+    <!-- Author Name -->
+    <div>
+      <%= form.label :author_name, class: "block text-green-400 font-semibold mb-2" do %>
+        <span class="text-white">const</span> author = <span class="text-green-400">"</span>
+      <% end %>
+      <%= form.text_field :author_name,
+          class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-2 text-white focus:border-green-500 focus:outline-none",
+          placeholder: "Имя автора проекта" %>
+      <span class="text-green-400">";</span>
+    </div>
+
+    <!-- Short Description -->
+    <div>
+      <%= form.label :description, class: "block text-green-400 font-semibold mb-2" do %>
+        <span class="text-white">const</span> shortDescription = <span class="text-green-400">`</span>
+      <% end %>
+      <%= form.text_area :description, rows: 3,
+          class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-2 text-white focus:border-green-500 focus:outline-none",
+          placeholder: "Краткое описание проекта для карточки..." %>
+      <span class="text-green-400">`;</span>
+    </div>
+
+    <!-- Detailed Description -->
+    <div>
+      <%= form.label :detailed_description, class: "block text-green-400 font-semibold mb-2" do %>
+        <span class="text-white">const</span> detailedDescription = <span class="text-green-400">`</span>
+      <% end %>
+      <%= form.text_area :detailed_description, rows: 6,
+          class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-2 text-white focus:border-green-500 focus:outline-none",
+          placeholder: "Подробное описание проекта, технологий, проблем, которые решает..." %>
+      <span class="text-green-400">`;</span>
+    </div>
+
+    <!-- Technology Stack -->
+    <div>
+      <%= form.label :technology_stack, class: "block text-green-400 font-semibold mb-2" do %>
+        <span class="text-white">const</span> technologies = [<span class="text-green-400">"</span>
+      <% end %>
+      <%= form.text_field :technology_stack,
+          class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-2 text-white focus:border-green-500 focus:outline-none",
+          placeholder: "React, Node.js, PostgreSQL, Docker (через запятую)" %>
+      <span class="text-green-400">"];</span>
+      <p class="text-gray-500 text-sm mt-1">Укажите технологии через запятую</p>
+    </div>
+
+    <!-- Dynamic Project Links -->
+    <div data-controller="nested-form" data-nested-form-wrapper-selector-value="[data-nested-form-wrapper]">
+      <div class="flex justify-between items-center mb-4">
+        <label class="block text-green-400 font-semibold">
+          <span class="text-white">const</span> projectLinks = [
+        </label>
+        <button type="button"
+                data-action="click->nested-form#add"
+                class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors">
+          + Добавить ссылку
+        </button>
+      </div>
+
+      <div data-nested-form-target="container" class="space-y-4">
+        <%= form.fields_for :project_links do |link_form| %>
+          <%= render 'project_link_fields', form: link_form %>
+        <% end %>
+      </div>
+
+      <!-- Template for new links -->
+      <template data-nested-form-target="template">
+        <%= form.fields_for :project_links, ProjectLink.new, child_index: 'NEW_RECORD' do |link_form| %>
+          <%= render 'project_link_fields', form: link_form %>
+        <% end %>
+      </template>
+
+      <div class="text-green-400 mt-2">];</div>
+    </div>
+
+    <!-- Image Upload -->
+    <div>
+      <%= form.label :images, class: "block text-green-400 font-semibold mb-2" do %>
+        <span class="text-white">const</span> projectImages = [<span class="text-green-400">"</span>
+      <% end %>
+      <%= form.file_field :images, multiple: true, accept: "image/*",
+          class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-2 text-white focus:border-green-500 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-green-600 file:text-white file:hover:bg-green-700" %>
+      <span class="text-green-400">"];</span>
+      <p class="text-gray-500 text-sm mt-1">Выберите несколько изображений для слайдера</p>
+    </div>
+
+    <!-- Submit Buttons -->
+    <div class="flex space-x-4 pt-6">
+      <%= form.submit project.persisted? ? "Обновить проект" : "Создать проект",
+          class: "px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold" %>
+
+      <%= link_to project.persisted? ? project : projects_path,
+          class: "px-6 py-3 border border-gray-500 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors" do %>
+        Отмена
+      <% end %>
+    </div>
+  <% end %>
+</div>

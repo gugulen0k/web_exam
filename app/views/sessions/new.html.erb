@@ -1,0 +1,65 @@
+<div class="max-w-md mx-auto mt-20">
+  <div class="bg-gray-800 border border-green-500/30 rounded-lg p-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-white mb-2">
+        <span class="text-green-400">function</span> adminLogin() <span class="text-white">{</span>
+      </h1>
+      <p class="text-gray-400">Доступ только для администраторов</p>
+    </div>
+
+    <%= form_with url: login_path, local: true, class: "space-y-6" do |form| %>
+
+      <!-- Email Field -->
+      <div>
+        <%= form.label :email, class: "block text-green-400 font-semibold mb-2" do %>
+          <span class="text-white">const</span> email = <span class="text-green-400">"</span>
+        <% end %>
+        <%= form.email_field :email, required: true,
+            class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-3 text-white focus:border-green-500 focus:outline-none",
+            placeholder: "admin@example.com" %>
+        <span class="text-green-400">";</span>
+      </div>
+
+      <!-- Password Field -->
+      <div>
+        <%= form.label :password, class: "block text-green-400 font-semibold mb-2" do %>
+          <span class="text-white">const</span> password = <span class="text-green-400">"</span>
+        <% end %>
+        <%= form.password_field :password, required: true,
+            class: "w-full bg-gray-700 border border-green-500/50 rounded px-4 py-3 text-white focus:border-green-500 focus:outline-none",
+            placeholder: "••••••••" %>
+        <span class="text-green-400">";</span>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="pt-4">
+        <%= form.submit "Войти в систему",
+            class: "w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold" %>
+      </div>
+
+    <% end %>
+
+    <div class="text-green-400 mt-6 text-center">
+      <span class="text-white">}</span> // Access granted
+    </div>
+
+    <!-- Security Notice -->
+    <div class="mt-6 p-4 bg-yellow-900/30 border border-yellow-500/30 rounded text-yellow-300 text-sm">
+      <div class="flex items-start">
+        <span class="text-yellow-400 mr-2">⚠️</span>
+        <div>
+          <strong>Внимание:</strong> Эта область предназначена только для администраторов.
+          Несанкционированный доступ запрещен.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to projects -->
+  <div class="text-center mt-6">
+    <%= link_to projects_path, class: "text-green-400 hover:text-green-300 transition-colors" do %>
+      ← Вернуться к проектам
+    <% end %>
+  </div>
+</div>

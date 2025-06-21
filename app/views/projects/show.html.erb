@@ -1,0 +1,190 @@
+<div class="max-w-6xl mx-auto">
+  <!-- Back Button -->
+  <div class="mb-6">
+    <%= link_to projects_path, class: "inline-flex items-center text-green-400 hover:text-green-300 transition-colors" do %>
+      <span class="mr-2">←</span> Назад к проектам
+    <% end %>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <!-- Image Slider -->
+    <div class="space-y-4">
+      <% if @images.any? %>
+        <div id="image-slider" class="relative">
+          <div class="w-full h-96 bg-gray-800 rounded-lg overflow-hidden border border-green-500/30">
+            <% @images.each_with_index do |project_image, index| %>
+              <div class="slide <%= 'active' if index == 0 %> w-full h-full absolute top-0 left-0 transition-opacity duration-500"
+                   style="<%= 'opacity: 0;' if index != 0 %>">
+                <%= image_tag project_image.image,
+                    class: "w-full h-full object-cover",
+                    alt: "#{@project.title} - Изображение #{index + 1}" %>
+              </div>
+            <% end %>
+
+            <!-- Navigation arrows -->
+            <% if @images.length > 1 %>
+              <button onclick="previousSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors">
+                ‹
+              </button>
+              <button onclick="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors">
+                ›
+              </button>
+            <% end %>
+          </div>
+
+          <!-- Slide indicators -->
+          <% if @images.length > 1 %>
+            <div class="flex justify-center space-x-2 mt-4">
+              <% @images.each_with_index do |_, index| %>
+                <button onclick="currentSlide(<%= index + 1 %>)"
+                        class="slide-indicator w-3 h-3 rounded-full bg-gray-600 hover:bg-green-500 transition-colors <%= 'bg-green-500' if index == 0 %>">
+                </button>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="w-full h-96 bg-gray-800 rounded-lg flex items-center justify-center border border-green-500/30">
+          <div class="text-center text-gray-500">
+            <div class="text-6xl mb-4">📷</div>
+            <p>Изображения не загружены</p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Project Details -->
+    <div class="space-y-6">
+      <div>
+        <h1 class="text-4xl font-bold text-white mb-2">
+          <span class="text-green-400">class</span> <%= @project.title %> <span class="text-white">{</span>
+        </h1>
+        <p class="text-green-400">
+          <span class="text-gray-500">// Author:</span> <%= @project.author_name %>
+        </p>
+      </div>
+
+      <!-- Description -->
+      <div class="bg-gray-800 border border-green-500/30 rounded-lg p-6">
+        <h3 class="text-lg font-semibold text-green-400 mb-3">
+          <span class="text-white">public</span> getDescription() <span class="text-white">{</span>
+        </h3>
+        <p class="text-gray-300 font-sans leading-relaxed mb-3">
+          <%= simple_format(@project.detailed_description.presence || @project.description) %>
+        </p>
+        <div class="text-green-400">
+          <span class="text-white">}</span>
+        </div>
+      </div>
+
+      <!-- Technology Stack -->
+      <% if @project.technology_stack.present? %>
+        <div class="bg-gray-800 border border-green-500/30 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-green-400 mb-3">
+            <span class="text-white">const</span> technologies = [
+          </h3>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <% @project.technology_stack.split(',').each do |tech| %>
+              <span class="px-3 py-1 bg-green-900/30 text-green-300 text-sm rounded border border-green-700">
+                "<%= tech.strip %>"
+              </span>
+            <% end %>
+          </div>
+          <div class="text-green-400">];</div>
+        </div>
+      <% end %>
+
+      <!-- Dynamic Project Links -->
+      <% if @links.any? %>
+        <div class="bg-gray-800 border border-green-500/30 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-green-400 mb-4">
+            <span class="text-white">const</span> projectLinks = [
+          </h3>
+          <div class="space-y-3">
+            <% @links.each do |link| %>
+              <% config = link.link_config %>
+              <%= link_to link.url, target: "_blank",
+                  class: "flex items-center justify-between p-4 bg-gray-700 border #{config[:border]}/30 rounded-lg hover:border-#{config[:border].split('-').last}-500 transition-all duration-300 group hover:shadow-lg hover:shadow-#{config[:border].split('-').last}-500/20" do %>
+                <div class="flex items-center space-x-3">
+                  <span class="text-2xl"><%= link.display_icon %></span>
+                  <div>
+                    <div class="<%= config[:color] %> font-semibold">
+                      <%= link.title %>
+                    </div>
+                    <div class="text-gray-400 text-sm font-mono">
+                      <%= link.url.gsub(/^https?:\/\//, '') %>
+                    </div>
+                  </div>
+                </div>
+                <span class="<%= config[:color] %> group-hover:transform group-hover:scale-110 transition-transform">↗</span>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="text-green-400 mt-4">];</div>
+        </div>
+      <% end %>
+
+      <!-- Admin Controls -->
+      <% if current_user %>
+        <div class="flex space-x-3 pt-6 border-t border-green-500/30">
+          <%= link_to edit_project_path(@project),
+              class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors" do %>
+            Редактировать
+          <% end %>
+          <%= button_to project_path(@project),
+              method: :delete,
+              data: {
+                confirm: "Вы уверены, что хотите удалить проект '#{@project.title}'?",
+                turbo_method: :delete
+              },
+              class: "px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors",
+              form: { style: "display: inline-block;" } do %>
+            Удалить
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="text-gray-600">
+        <span class="text-white text-4xl">}</span> // Updated <%= @project.updated_at.strftime("%Y-%m-%d %H:%M") %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentSlideIndex = 0;
+const slides = document.querySelectorAll('.slide');
+const indicators = document.querySelectorAll('.slide-indicator');
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.style.opacity = i === index ? '1' : '0';
+  });
+
+  indicators.forEach((indicator, i) => {
+    indicator.classList.toggle('bg-green-500', i === index);
+    indicator.classList.toggle('bg-gray-600', i !== index);
+  });
+
+  currentSlideIndex = index;
+}
+
+function nextSlide() {
+  const nextIndex = (currentSlideIndex + 1) % slides.length;
+  showSlide(nextIndex);
+}
+
+function previousSlide() {
+  const prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+  showSlide(prevIndex);
+}
+
+function currentSlide(index) {
+  showSlide(index - 1);
+}
+
+// Auto-slide every 5 seconds
+if (slides.length > 1) {
+  setInterval(nextSlide, 5000);
+}
+</script>

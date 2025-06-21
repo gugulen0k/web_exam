@@ -8,3 +8,299 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #10b981;
+  }
+}
+
+.typing-animation {
+  overflow: hidden;
+  border-right: 3px solid #10b981;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation:
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+/* Matrix-like background effect */
+@keyframes matrix {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.matrix-bg::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(90deg, transparent 98%, rgba(16, 185, 129, 0.03) 100%),
+    linear-gradient(rgba(16, 185, 129, 0.03) 50%, transparent 50%);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Code block styling */
+.code-block {
+  background: #1f2937;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: "Fira Code", monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+.code-block::before {
+  content: "• • •";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* Terminal-like styling */
+.terminal {
+  background: #000;
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: "Fira Code", monospace;
+  color: #10b981;
+  position: relative;
+}
+
+.terminal::before {
+  content: "user@devportfolio:~$ ";
+  color: #10b981;
+}
+
+/* Hover effects for cards */
+.project-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(16, 185, 129, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.project-card:hover::before {
+  left: 100%;
+}
+
+/* Glitch effect for titles */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+  color: #ff0000;
+  z-index: -1;
+}
+
+.glitch::after {
+  animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+  color: #00ff00;
+  z-index: -2;
+}
+
+@keyframes glitch-anim-1 {
+  0% {
+    clip: rect(64px, 9999px, 66px, 0);
+  }
+  20% {
+    clip: rect(30px, 9999px, 36px, 0);
+  }
+  40% {
+    clip: rect(76px, 9999px, 78px, 0);
+  }
+  60% {
+    clip: rect(12px, 9999px, 14px, 0);
+  }
+  80% {
+    clip: rect(48px, 9999px, 50px, 0);
+  }
+  100% {
+    clip: rect(22px, 9999px, 24px, 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip: rect(85px, 9999px, 87px, 0);
+  }
+  20% {
+    clip: rect(41px, 9999px, 43px, 0);
+  }
+  40% {
+    clip: rect(67px, 9999px, 69px, 0);
+  }
+  60% {
+    clip: rect(23px, 9999px, 25px, 0);
+  }
+  80% {
+    clip: rect(59px, 9999px, 61px, 0);
+  }
+  100% {
+    clip: rect(33px, 9999px, 35px, 0);
+  }
+}
+
+/* Loading animations */
+.loading-dots::after {
+  content: "";
+  animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+  0%,
+  20% {
+    content: ".";
+  }
+  40% {
+    content: "..";
+  }
+  60%,
+  100% {
+    content: "...";
+  }
+}
+
+/* Syntax highlighting for code snippets */
+.syntax-keyword {
+  color: #ff79c6;
+}
+.syntax-string {
+  color: #f1fa8c;
+}
+.syntax-comment {
+  color: #6272a4;
+}
+.syntax-function {
+  color: #50fa7b;
+}
+.syntax-variable {
+  color: #8be9fd;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
+/* Button hover effects */
+.btn-glow {
+  box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+  transition: box-shadow 0.3s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+}
+
+/* Form input focus effects */
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .typing-animation {
+    font-size: 1.5rem;
+  }
+
+  .project-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Dark theme enhancements */
+.dark-gradient {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+/* Code editor-like line numbers */
+.line-numbers {
+  counter-reset: line;
+}
+
+.line-numbers .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2em;
+  margin-right: 1em;
+  text-align: right;
+  color: #6b7280;
+  border-right: 1px solid #374151;
+  padding-right: 0.5em;
+}

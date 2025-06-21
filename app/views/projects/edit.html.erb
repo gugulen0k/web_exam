@@ -1,0 +1,17 @@
+<div class="max-w-4xl mx-auto">
+  <div class="mb-6">
+    <%= link_to @project, class: "inline-flex items-center text-green-400 hover:text-green-300 transition-colors" do %>
+      <span class="mr-2">←</span> Назад к проекту
+    <% end %>
+  </div>
+
+  <h1 class="text-3xl font-bold text-white mb-8">
+    <span class="text-green-400">edit</span> <%= @project.title %>() <span class="text-white">{</span>
+  </h1>
+
+  <%= render 'form', project: @project %>
+
+  <div class="text-green-400 mt-4">
+    <span class="text-white text-3xl">}</span> // End of form
+  </div>
+</div>
